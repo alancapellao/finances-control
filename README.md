@@ -1,6 +1,6 @@
 # Finances Control
 
-Financial Control is a project developed to make entries and exits of your personal budget, thus controlling your finances and having the total of the entry and exit.
+Finances Control is a project developed to make entries and exits of your personal budget, thus controlling your finances and having the total of the entry and exit.
 
 Developed with PHP and MySQL.
 
