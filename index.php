@@ -1,8 +1,8 @@
 <?php
-include_once("controller/select.php");
-include_once("controller/insert.php");
-include_once("controller/sum.php");
-include_once("controller/delete.php");
+require_once "controller/select.php";
+require_once "controller/insert.php";
+require_once "controller/sum.php";
+require_once "controller/delete.php";
 ?>
 
 <!DOCTYPE html>
@@ -121,7 +121,6 @@ include_once("controller/delete.php");
                     $sql->execute();
                     $fetchControl = $sql->fetchAll();
 
-
                     foreach ($fetchControl as $key => $value) {
 
                         $tipo = ($value['tipo'] === 'Entrada') ? '<i class="bx bxs-chevron-up-circle"></i>' : '<i class="bx bxs-chevron-down-circle"></i>';
@@ -138,14 +137,15 @@ include_once("controller/delete.php");
                 </tbody>
             </table>
     </main>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.13/jquery.mask.min.js"></script>
-
     <script>
         $('#amount').mask("#####.00", {
             reverse: true
         });
     </script>
+
 </body>
 
 </html>

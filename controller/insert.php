@@ -1,7 +1,6 @@
 <?php
-include_once("model/connection.php");
 
-session_start();
+require_once "config/connection.php";
 
 if (isset($_POST['submit'])) {
 
