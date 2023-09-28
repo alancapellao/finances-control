@@ -1,10 +1,3 @@
-<?php
-require_once "controller/select.php";
-require_once "controller/insert.php";
-require_once "controller/sum.php";
-require_once "controller/delete.php";
-?>
-
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -12,18 +5,15 @@ require_once "controller/delete.php";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <title>Controle Financeiro</title>
 </head>
 
 <body>
-
     <main>
         <div class="container">
-            <h1>
-                <div class="title">Controle Financeiro</div>
-            </h1>
+            <h1 class="title">Controle Financeiro</h1>
         </div>
 
         <div class="resume">
@@ -34,16 +24,7 @@ require_once "controller/delete.php";
                 </h1>
                 <br>
                 <span class="incomes">R$
-                    <?php
-                    $entrada->execute();
-                    $result = $entrada->fetchColumn();
-
-                    if ($result == null) {
-                        echo "0.00";
-                    } else {
-                        echo $result;
-                    }
-                    ?>
+                    <?= number_format(floatval($entry), 2, ',', '.') ?>
                 </span>
             </div>
             <div>
@@ -53,16 +34,7 @@ require_once "controller/delete.php";
                 </h1>
                 <br>
                 <span class="expenses">R$
-                    <?php
-                    $saida->execute();
-                    $result = $saida->fetchColumn();
-
-                    if ($result == null) {
-                        echo "0.00";
-                    } else {
-                        echo $result;
-                    }
-                    ?>
+                    <?= number_format(floatval($exit), 2, ',', '.') ?>
                 </span>
             </div>
             <div>
@@ -72,20 +44,11 @@ require_once "controller/delete.php";
                 </h1>
                 <br>
                 <span class="total">R$
-                    <?php
-                    $total->execute();
-                    $result = $total->fetchColumn();
-
-                    if ($result == null) {
-                        echo "0.00";
-                    } else {
-                        echo $result;
-                    }
-                    ?>
+                    <?= number_format(floatval($entry) + floatval($exit), 2, ',', '.') ?>
                 </span>
             </div>
         </div>
-        <form method="post">
+        <form action="/control/criar" method="POST">
             <div class="newItem">
                 <div class="divDesc">
                     <label for="desc">Descrição</label>
@@ -116,36 +79,22 @@ require_once "controller/delete.php";
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-
-                    $sql->execute();
-                    $fetchControl = $sql->fetchAll();
-
-                    foreach ($fetchControl as $key => $value) {
-
-                        $tipo = ($value['tipo'] === 'Entrada') ? '<i class="bx bxs-chevron-up-circle"></i>' : '<i class="bx bxs-chevron-down-circle"></i>';
-                        echo '<tr>';
-                        echo '<td>' . $value['descricao'] . '</td>';
-                        echo '<td class="money">R$ ' . $value['valor'] . '</td>';
-                        echo '<td class="columnType">' . $tipo . '</td>';
-                        echo '<td class="columnAction"> 
-                        <a href="?delete=' . $value['id'] . '"><i class="bx bx-trash"></i></a>
-                    </td>';
-                        echo '</tr>';
-                    }
-                    ?>
+                    <?php foreach ($transactions as $transaction) : ?>
+                        <tr>
+                            <td><?= htmlspecialchars($transaction['descricao'], ENT_QUOTES) ?></td>
+                            <td class="money">R$ <?= number_format(floatval($transaction['valor']), 2, '.', ',') ?></td>
+                            <td class="columnType"><i class="bx bxs-chevron-<?= $transaction['tipo'] == 'Entrada' ? 'up' : 'down' ?>-circle"></i></td>
+                            <td class="columnAction">
+                                <a href="/control/deletar/<?= $transaction['id'] ?>"><i class="bx bx-trash"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
     </main>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.13/jquery.mask.min.js"></script>
-    <script>
-        $('#amount').mask("#####.00", {
-            reverse: true
-        });
-    </script>
-
+    <script src="/js/script.js"></script>
 </body>
 
 </html>

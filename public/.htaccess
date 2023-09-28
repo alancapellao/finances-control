@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteBase /finances-control/public/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*)$ /index.php?uri=$1 [NC,L]
+
+<Files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+</Files>
